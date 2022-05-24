@@ -4,7 +4,7 @@ pragma solidity 0.8.9;
 
 
 contract PubChatBox{
-    address admin;
+    address public admin;
     struct MsgData{
         uint timestamp;
         address user;
