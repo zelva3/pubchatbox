@@ -1,31 +1,34 @@
 import logo from './logo.svg';
 import './App.css';
-import PubChatBox_Contract from './ethereum/PubChatBox';
+
 import { useEffect, useState } from 'react';
-import {Button} from 'semantic-ui-react';
+import { Button } from 'semantic-ui-react';
+import Layout from './components/Layout';
+import MessageBox from './components/MessageBox';
 
 function App() {
 
-  useEffect(()=>{
-   loadMessages(); 
-  },[]);
+  
+  const ethereum = window.ethereum;
+  const [accountAddress, setAccountAddress] = useState('');
 
-  const [accountAddress, setAccountAddress] = useState('empty');
-
-  const loadMessages = async () => {
-    const messages = await PubChatBox_Contract.methods.displayallmsgs().call()
-    console.log(messages);
-  }
+  
+  ethereum.on('accountsChanged', (accounts) => {
+    // Handle the new accounts, or lack thereof.
+    // "accounts" will always be an array, but it can be empty.
+    window.location.reload();
+  });
 
   const connectMetamask = async () => {
-    
-    if (typeof window.ethereum !== 'undefined') {
-      const accounts = window.ethereum.request({ method: 'eth_requestAccounts' });
+    console.log(ethereum.isConnected());
+    if (typeof ethereum !== 'undefined') {
+      const accounts = await ethereum.request({ method: 'eth_requestAccounts' });
       // const account = accounts[0];
-      console.log(accountAddress);
+      // console.log(ethereum.isConnected());
+      // console.log(accountAddress);
       setAccountAddress(accounts[0]);
-      console.log(accounts);
-      console.log(accountAddress);
+      // console.log(accounts);
+      // console.log(accountAddress);
     }
     // console.log(window.ethereum);
     // console.log(window.web3);
@@ -39,12 +42,15 @@ function App() {
     //   console.error(error);
     // }
   }
-  
+
   return (
-    <div className="App">
-      <Button onClick={connectMetamask}>Connect</Button>
-      <div>{accountAddress}</div>
-    </div>
+    <Layout>
+      {accountAddress == '' ?
+        <Button onClick={connectMetamask}>Connect</Button>
+        : <Button>Connected to {accountAddress}</Button>
+      }
+      <MessageBox />
+    </Layout>
   );
 }
 
