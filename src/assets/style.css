@@ -19,3 +19,9 @@
   .bottom-credit img{
     padding: 0px 5px;
   }
+
+  .scroll-msg{
+    overflow: auto;
+    max-height: 400px;
+    overflow-x: hidden;
+  }

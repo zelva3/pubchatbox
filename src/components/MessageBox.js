@@ -5,12 +5,17 @@ import PubChatBox_Contract from '../ethereum/PubChatBox';
 import Message from "./Message";
 import web3 from "../ethereum/web3";
 
-const MessageBox = () => {
+const MessageBox = (props) => {
+
     let msgData;
     const [msgList, setMsgList] = useState('');
     const [message, setMessage] = useState('');
     const [msgSubmit, setMsgSubmit] = useState(false);
     useEffect(() => {
+        const element = document.querySelector('.scroll-msg');
+        // console.log(element);
+        element.scrollTop = element.scrollHeight - element.clientHeight;
+        // element.scrollTop = element.scrollHeight;
         loadMessages();
     }, [msgSubmit]);
 
@@ -31,11 +36,11 @@ const MessageBox = () => {
         setMessage('')
     }
     return (
-        <Comment.Group centered={true}>
-            {msgList}
+        <Comment.Group centered>
+            <div className="scroll-msg">{msgList}</div>            
             <Form reply onSubmit={submitMessage}>
                 <Form.TextArea value={message} onChange={(event)=>{setMessage(event.target.value)}}/>
-                <Button content='Add Comment' labelPosition='left' icon='edit' primary />
+                <Button disabled={ props.connection === '' && true } content='Add Comment' labelPosition='left' icon='edit' primary />
             </Form>
         </Comment.Group>
     )

@@ -1,6 +1,6 @@
 
 import React, {useEffect, useState} from "react";
-import { Button, Comment, Form } from 'semantic-ui-react';
+import { Button, Comment, Divider } from 'semantic-ui-react';
 
 const Message = (props) => {
     const {user, timestamp, userMsg} = props.msgdata;
@@ -12,7 +12,7 @@ const Message = (props) => {
                 <Comment.Content>
                     <Comment.Author>{user}</Comment.Author>
                     <Comment.Metadata>
-                        <div>{datetime}</div>
+                        <span>{datetime}</span>
                     </Comment.Metadata>
                     <Comment.Text>
                         {userMsg}
@@ -20,8 +20,8 @@ const Message = (props) => {
                     {/* <Comment.Actions>
                         <Comment.Action>Reply</Comment.Action>
                     </Comment.Actions> */}
-                </Comment.Content>
-            </Comment>            
+                </Comment.Content><Divider />
+            </Comment>          
     )
 }
 
